@@ -199,6 +199,7 @@
     document.getElementById('league').addEventListener('change', fetchLeague);
     document.getElementById('team-search').addEventListener('input', renderAll);
     fetchLeague();
+  setInterval(fetchLeague, 5000);
   </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { fetchAfricaLeagueData } = require('./fetch_africa');
 
 const API_KEY = process.env.FOOTBALL_API_KEY || '9249a2f1f2f74158b812f1b214e9ce87';
 const BASE_URL = 'https://api.football-data.org/v4';
@@ -10,6 +11,7 @@ const headers = { 'X-Auth-Token': API_KEY };
 
 async function fetchLeagueData(league = 'PL') {
   const safeLeague = encodeURIComponent(league.toUpperCase());
+  if (safeLeague === 'NBC' || safeLeague === 'CAF') return await fetchAfricaLeagueData(safeLeague);
   if (safeLeague === "NBC" || safeLeague === "CAF") {
     const raw = JSON.parse(fs.readFileSync(path.join(__dirname, "data/africa-data.json"), "utf8"));
     return raw[safeLeague] || { competition: safeLeague, table: [], liveMatches: [], fixtures: [], recentFinished: [] };
