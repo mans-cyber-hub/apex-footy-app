@@ -10,6 +10,10 @@ const headers = { 'X-Auth-Token': API_KEY };
 
 async function fetchLeagueData(league = 'PL') {
   const safeLeague = encodeURIComponent(league.toUpperCase());
+  if (safeLeague === "NBC" || safeLeague === "CAF") {
+    const raw = JSON.parse(fs.readFileSync(path.join(__dirname, "data/africa-data.json"), "utf8"));
+    return raw[safeLeague] || { competition: safeLeague, table: [], liveMatches: [], fixtures: [], recentFinished: [] };
+  }
   const [standingsRes, matchesRes] = await Promise.all([
     fetch(`${BASE_URL}/competitions/${safeLeague}/standings`, { headers }),
     fetch(`${BASE_URL}/competitions/${safeLeague}/matches`, { headers })
