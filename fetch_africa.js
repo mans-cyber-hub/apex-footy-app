@@ -1,5 +1,3 @@
-const fetch = (...args) => import("node-fetch").then(({ default: f }) => f(...args));
-
 const LEAGUES = {
   NBC: { id: 567, name: "NBC Premier League" },
   CAF: { id: 20, name: "CAF Champions League" }
